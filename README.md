@@ -73,10 +73,10 @@ Probability higher of exiting bank than expected value for:
 After testing various methods, neural networks with a smoteTOMEK oversampling was chosen;
 
 Final parameters after fine-tuning: 
-* 'optimizer': 'Adam'
-* 'layer2': 4 neurons
-* 'layer1': 32 neurons
-* 'dropout_rate': 0.0
+* optimizer: Adam
+* hidden layer 1: 32 neurons
+* hidden layer 2: 4 neurons
+* dropout_rate: 0.0
 * batch_size : 16
 
 | ![](https://github.com/marcellohro-hub/Churn_prediction/blob/master/imgs/download.png) | 
