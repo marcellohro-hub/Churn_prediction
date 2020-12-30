@@ -12,8 +12,8 @@ The business case uses dataset from this kaggle webpage: https://www.kaggle.com/
 * Offers financial products such as bank account, investments and insurance.
 * Main Product: bank account without costs, valid for 12 months. After this period, the account must be renovated.
 * Bank return per client:
- * 15% if client's income is lower than the average;
- * 20% if client's income is higher than the average;
+  * 15% if client's income is lower than the average;
+  * 20% if client's income is higher than the average;
  
 ## Problem
 * In the last few months the rate of customers canceling their accounts and leaving the bank had a significant increase;
@@ -21,7 +21,7 @@ The business case uses dataset from this kaggle webpage: https://www.kaggle.com/
 ## Goal
 * Reduce customer evasion, aka **churn rate**;
 *  Distribute financial incentives among clients in order to maximize ROI (Return on Investment).
-*  The sum of incentives for each client cannot exceed R$10,000.00;
+*  The total budget of incentives is R$10,000.00;
 
 ## Deliverables
 * Answer following questions:
@@ -91,15 +91,30 @@ Final Score:
 
 ## Business solution -  maximizing ROI
 
-To avoid churning the following conditions were proposed:
+To optimize ROI without exceeding the budget of 10,000mu we must invest in clients with high probability of churning. An arbitrary, but realistic, strategy is considered to distribute the incentives among clients:
 
-**For clients with probability of churning greater than 50%:**
-* Invest 10% * return * (probability of churning), with a ceiling of 10,000
+* For clients with extreme probability of churning, p(churn) > 0.99, invest nothing, these clients are too difficult to maintain and it's better letting go.
+* If 0.95 < p(churn) < 0.99 invest 200mu
+* If 0.90 < p(churn) < 0.95 invest 100mu
+* If p(churn) < 0.90 invest 50mu
 
-**For clients with probability of churning lower than 50%:**
-* Invest value equals the return of client with a ceiling of 500
+In the above strategy we must select an optimal combination of clients that maximize the total returned value, without exceeding the total weight constraint.
+So we summarize this problem in the following manner:
+* Each client has a "weight": the financial incentive that will be given in order to avoid the churn.
+* There is a total weight constraint, i.e., the available budget for investments: $ 10,000.00.
+* The incentive can either be offered or not: 0-1 
 
-Results using conditions:
-* ROI considering 100% sucess with the incentives: 23 dolars for each dolar invested
+The problem of selecting an optimal combination of weights and values with a total weight constraint can be solved using a **0-1 Knapsack algorithm**.
+
+Knapsack Problem Reference:
+* https://en.wikipedia.org/wiki/Knapsack_problem
+* https://www.geeksforgeeks.org/python-program-for-dynamic-programming-set-10-0-1-knapsack-problem/
+
+**Final results utilizing the knapsack algorithm:**
+* Investment: 10,000.00
+* Number of clients selected:  184
+* Profit: 3,881,663.21
+* Optimum revenue from recovered clients: 3,891,576.00
+* Optimum ROI: 38,816.63%
 
 **For more details please read notebook**
